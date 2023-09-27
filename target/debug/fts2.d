@@ -1,0 +1,1 @@
+/home/bulat/Rust/rfts2/target/debug/fts2: /home/bulat/Rust/rfts/src/lib.rs /home/bulat/Rust/rfts/src/rfts.rs /home/bulat/Rust/rfts2/src/main.rs /home/bulat/Rust/tokenize/src/lib.rs /home/bulat/Rust/tokenize/src/tokenize.rs
