@@ -1,3 +1,5 @@
+use std::io;
+use std::io::Write;
 use std::io::stdin;
 use std::fs::File;
 use std::io::Read;
@@ -37,10 +39,11 @@ fn main() {
     }
     loop {
         let mut xlist = vec![];
+        print!("Enter words: ");
+        io::stdout().flush();
         let mut line = String::new();
-        println!("Enter words: ");
         stdin().read_line(&mut line).unwrap();
-        inptok = words(line);
+        inptok = words(line.trim_end().to_string());
         let v2 = inptok.split(" ").map(String::from).collect::<Vec<String>>();
         for i in v2 {
             if !xlist.contains(&i) {
