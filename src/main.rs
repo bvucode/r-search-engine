@@ -1,6 +1,6 @@
 use std::io;
-use std::io::Write;
 use std::io::stdin;
+use std::io::Write;
 use std::fs::File;
 use std::io::Read;
 use std::path::Path;
@@ -16,7 +16,6 @@ fn main() {
     let mut upd: HashMap<String, Vec<(u32, u32)>> = HashMap::new();
     let paths = std::fs::read_dir("./my_folder").unwrap();
     let mut vf = vec![];
-    //let mut inptok:String = Default::default();
     let folder = "./my_folder/".to_string();
     for path in paths {
         vf.push(path.expect("REASON").file_name());
