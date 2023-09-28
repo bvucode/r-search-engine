@@ -12,10 +12,11 @@ extern crate rfts;
 use rfts::rfts::{indexing, ftsearch, update};
 
 fn main() {
+    println!("\nsearch engine\n");
     let mut upd: HashMap<String, Vec<(u32, u32)>> = HashMap::new();
     let paths = std::fs::read_dir("./my_folder").unwrap();
     let mut vf = vec![];
-    let mut inptok:String = Default::default();
+    //let mut inptok:String = Default::default();
     let folder = "./my_folder/".to_string();
     for path in paths {
         vf.push(path.expect("REASON").file_name());
@@ -38,8 +39,9 @@ fn main() {
         }
     }
     loop {
+        let mut inptok:String = Default::default();
         let mut xlist = vec![];
-        print!("Enter words: ");
+        print!("Enter: ");
         io::stdout().flush();
         let mut line = String::new();
         stdin().read_line(&mut line).unwrap();
