@@ -2,4 +2,3 @@
 
 search engine on rust
 
-cargo run
