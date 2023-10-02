@@ -19,26 +19,6 @@ pub fn indexing(v:Vec<String>, ind:u32) -> HashMap<String, Vec<(u32, u32)>> {
     return dict;
 }
 
-pub fn ftsearch(xv:Vec<String>, xdict:HashMap<String, Vec<(u32, u32)>>) -> HashMap<u32, u32> {
-    let mut dict = HashMap::new();
-    let mut v = vec![];
-    for i in &xv {
-        if xdict.contains_key(i) {
-            v.push(xdict.get(i).unwrap());
-        }
-    }
-    for i in v {
-        for j in i {
-            if !dict.contains_key(&j.0) {
-                dict.insert(j.0, j.1);
-            }else{
-                dict.insert(j.0, j.0 + j.1);
-            }
-        }
-    }
-    return dict;
-}
-
 pub fn update<'a>(indh:HashMap<String, Vec<(u32, u32)>>, oldh: &mut HashMap<String, Vec<(u32, u32)>>) -> &mut HashMap<String, Vec<(u32, u32)>> {
     for (k, v) in indh {
         if oldh.contains_key(&k) {

@@ -13,7 +13,7 @@ use std::collections::HashMap;
 extern crate tokenize;
 use tokenize::tokenize::words;
 extern crate rfts;
-use rfts::rfts::{indexing, ftsearch, update};
+use rfts::rfts::{indexing, update};
 
 fn helper() {
     println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine\noptional arguments: \n-h, --help show this help message\n");
@@ -82,9 +82,12 @@ fn indexer(fpaths:String, fwords:String, ofile:String) {
             xlist.push(i);
         }
     }
-    let var = ftsearch(xlist, upd.clone());
-    for (k, v) in var {
-        data += &(directories[k as usize].clone() + "\n");
+    for i in xlist {
+        if upd.contains_key(&i) {
+            for j in upd.get(&i).unwrap() {
+                data += &(directories[j.0 as usize].clone() + " - " + &i + "\n");
+            }
+        }
     }
     fs::write(ofile, data).expect("Unable to write file");
 }
