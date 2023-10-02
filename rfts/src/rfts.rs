@@ -5,7 +5,8 @@ pub fn indexing(v:Vec<String>, ind:u32) -> HashMap<String, Vec<(u32, u32)>> {
     for i in &v {
         if !dict.contains_key(i) {
             let mut tv2 = vec![];
-            let c:u32 = v.iter().filter(|n| n == &i).count().try_into().unwrap();
+            let c:u32 = 1;
+            //let c:u32 = v.iter().filter(|n| n == &i).count().try_into().unwrap();
             tv2.push((ind, c));
             dict.insert(i.to_string(), tv2);
         }
@@ -33,8 +34,8 @@ pub fn ftsearch(xv:Vec<String>, xdict:HashMap<String, Vec<(u32, u32)>>) -> HashM
     return dict;
 }
 
-pub fn update<'a>(indh:HashMap<String, Vec<(u32, u32)>>, oldh: HashMap<String, Vec<(u32, u32)>>) -> HashMap<String, Vec<(u32, u32)>>{
-    let mut newh:HashMap<String, Vec<(u32, u32)>> = HashMap::new();
+pub fn update<'a>(indh:HashMap<String, Vec<(u32, u32)>>, oldh: &mut HashMap<String, Vec<(u32, u32)>>) -> &mut HashMap<String, Vec<(u32, u32)>>{
+    //let mut newh:HashMap<String, Vec<(u32, u32)>> = HashMap::new();
     for (k, v) in indh {
         if oldh.contains_key(&k) {
             let mut t = vec![];
@@ -45,11 +46,13 @@ pub fn update<'a>(indh:HashMap<String, Vec<(u32, u32)>>, oldh: HashMap<String, V
             for i in &v {
                 t.push(*i);
             }
-            newh.insert(k, t);
+            oldh.insert(k,t);
+            //newh.insert(k, t);
         }
         else if !oldh.contains_key(&k) {
-            newh.insert(k, v);
+            oldh.insert(k, v);
+            //newh.insert(k, v);
         }
     }
-    return newh
+    return oldh
 }
