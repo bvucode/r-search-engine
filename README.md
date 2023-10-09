@@ -6,7 +6,7 @@ cargo run --release
 
 ./target/release/r-search-engine -h
 
-in first argument file with path1n\path2
+in first argument file with path1"\n"path2
 
 in second argument file with text
 
