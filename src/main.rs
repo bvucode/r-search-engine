@@ -40,6 +40,20 @@ fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
     pathwalk(listdirs, listmemo)
 }
 
+fn read_from_file(path: String) -> Result<String, io::Error> {
+    let f = File::open(path);
+    let mut f = match f {
+        Ok(file) => file,
+        Err(e) => return Err(e),
+    };
+    let mut s = String::new();
+    match f.read_to_string(&mut s) {
+        Ok(_) => Ok(s.clone()),
+        Err(err) => Err(err),
+    };
+    Ok(s)
+}
+
 fn indexer(fpaths:String, fwords:String, ofile:String) {
     let mut upd: &mut HashMap<String, Vec<(u32, u32)>> = &mut HashMap::new();
     let mut contents3 = String::new();
@@ -59,8 +73,15 @@ fn indexer(fpaths:String, fwords:String, ofile:String) {
     for i in 0..directories.len() {
         let mut contents2 = String::new();
         let mut tok:String = Default::default();
-        let file2 = File::open(directories[i].to_owned());
-        file2.expect("REASON").read_to_string(&mut contents2).unwrap();
+        contents2 = match read_from_file(directories[i].to_owned()) {
+            Ok(cont) => cont,
+            Err(e) => return {
+                let file3 = File::open(directories[i].to_owned());
+                let mut buf = vec![];
+                file3.expect("REASON").read_to_end(&mut buf);
+                contents2 = String::from_utf8_lossy(&buf).to_string();
+            }
+        };
         {
             let x = &mut tok;
             *x = words(contents2);
