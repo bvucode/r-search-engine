@@ -16,7 +16,7 @@ extern crate rfts;
 use rfts::rfts::{indexing, update};
 
 fn helper() {
-    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine\noptional arguments: \n-h, --help show this help message\n");
+    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine v 0.1.3 \noptional arguments: \nfile_paths: /path1/ /path2/\n-h, --help show this help message\n");
 }
 
 fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
@@ -25,7 +25,9 @@ fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
         let paths = std::fs::read_dir(listpaths[i].trim_end()).unwrap();
         for entry in paths {
             let p = entry.expect("REASON").file_name();
-            let path = PathBuf::from(listpaths[i].to_owned() + &p.clone().into_string().unwrap());
+            let mut path = PathBuf::new();
+            path.push(listpaths[i].to_owned());
+            path.push(&p.clone().into_string().unwrap());
             if path.is_dir() {
                 listdirs.push(listpaths[i].to_owned() + &p.clone().into_string().unwrap() + "/");
             }
@@ -56,6 +58,7 @@ fn read_from_file(path: String) -> Result<String, io::Error> {
 
 fn indexer(fpaths:String, fwords:String, ofile:String) {
     let mut upd: &mut HashMap<String, Vec<(u32, u32)>> = &mut HashMap::new();
+    let mut contents = String::new();
     let mut contents3 = String::new();
     let mut directories = vec![];
     let mut xlist = vec![];
@@ -63,12 +66,9 @@ fn indexer(fpaths:String, fwords:String, ofile:String) {
     let mut listmemo = vec![];
     let mut tok2:String = Default::default();
     let mut data = String::new();
-    let file = File::open(fpaths.clone()).expect("Unable to open file");
-    let file = BufReader::new(file);
-    for line in file.lines() {
-        let line = line.expect("REASON");
-        ylist.push(line.to_string());
-    }
+    let mut file = File::open(fpaths.clone()).expect("Unable to open file");
+    file.read_to_string(&mut contents).unwrap();
+    ylist = contents.trim_end().split(" ").map(String::from).collect::<Vec<String>>();
     directories = pathwalk(ylist, &mut listmemo);
     for i in 0..directories.len() {
         let mut contents2 = String::new();
