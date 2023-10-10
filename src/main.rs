@@ -16,7 +16,7 @@ extern crate rfts;
 use rfts::rfts::{indexing, update};
 
 fn helper() {
-    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine v 0.1.3 \noptional arguments: \nfile_paths: /path1/ /path2/\n-h, --help show this help message\n");
+    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine v 0.1.3\noptional arguments:\n file_paths: /path1/ /path2/\n file_words: words\n output_file: output.txt\n-h, --help show this help message\n");
 }
 
 fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
