@@ -16,7 +16,7 @@ extern crate rfts;
 use rfts::rfts::{indexing, update};
 
 fn helper() {
-    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine v 0.1.3\noptional arguments:\n file_paths: /path1/ /path2/\n file_words: words\n output_file: output.txt\n-h, --help show this help message\n");
+    println!("usage: main.py [-h] [file_paths file_words output_file]\nsearch engine v 0.1.3\noptional arguments: \n-h, --help show this help message");
 }
 
 fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
@@ -25,14 +25,15 @@ fn pathwalk(listpaths:Vec<String>, listmemo: &mut Vec<String>) -> Vec<String> {
         let paths = std::fs::read_dir(listpaths[i].trim_end()).unwrap();
         for entry in paths {
             let p = entry.expect("REASON").file_name();
+            let mut directory = PathBuf::new();
             let mut path = PathBuf::new();
             path.push(listpaths[i].to_owned());
             path.push(&p.clone().into_string().unwrap());
             if path.is_dir() {
-                listdirs.push(listpaths[i].to_owned() + &p.clone().into_string().unwrap() + "/");
+                listdirs.push(path.as_os_str().to_str().unwrap().to_string());
             }
             if path.is_file() {
-                listmemo.push(listpaths[i].to_owned() + &p.clone().into_string().unwrap());
+                listmemo.push(path.as_os_str().to_str().unwrap().to_string());
             }
         }
     }
@@ -118,7 +119,7 @@ fn main() {
     let file_path = args();
     let mut namefile = vec![];
     for arg in file_path {
-        if args().len() == 2 && arg == "-h" {
+        if args().len() == 2 && arg == "-h" || args().len() == 2 && arg == "--help"{
             flag = 1;
             helper();
             break;
