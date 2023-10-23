@@ -2,6 +2,6 @@
 
 search engine on rust
 
-cargo run --release
+cargo run --release -h
 
 ./target/release/r-search-engine -h
